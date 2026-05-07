@@ -1,0 +1,7 @@
+@import "tailwindcss";
+  .container{
+    @apply mx-auto w-10/12
+}
+@theme{
+  --color-ter
+}
