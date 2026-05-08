@@ -1,6 +1,0 @@
-@import "tailwindcss";
-@layer base{
-  .container{
-    @apply mx-auto w-10/12
-  }
-}
