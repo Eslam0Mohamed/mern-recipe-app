@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import cors from 'cors'
 import dotenv from 'dotenv'
 import recipeRouter from "./Routes/recipe.router.js"
+import userRouter from "./Routes/auth.router.js"
 import { connectDB } from "./connectDB/connectdb.js"
 const app = express()
 dotenv.config()
@@ -14,6 +15,7 @@ connectDB()
 
  app.use(express.json())
 app.use("/recipes",recipeRouter)
+app.use("/auth",userRouter)
 
 
 app.listen(port,()=>{
