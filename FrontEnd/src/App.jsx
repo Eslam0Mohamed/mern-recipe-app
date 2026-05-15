@@ -4,7 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './components/Layout'
 import Login from './pages/Login'
 import Register from './pages/Signup'
-
+import AuthContextProvider from './Context/AuthContext'
+import { Toaster } from 'react-hot-toast'
 const App = () => {
   const router = createBrowserRouter([
     { path: '/', element: <Layout />,children:[
@@ -15,9 +16,14 @@ const App = () => {
 
   ])
   return (
+  <>
     <main>
+      <AuthContextProvider>
       <RouterProvider router={router} />
+    <Toaster position='top-center'/>
+    </AuthContextProvider>
     </main>
+    </>
   )
 }
 
