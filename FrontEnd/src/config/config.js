@@ -1,4 +1,4 @@
- const baseUrl = import.meta.env.VITE_BASE_URL;
+ export const baseUrl = import.meta.env.VITE_BASE_URL;
 
 
  import axios from "axios"

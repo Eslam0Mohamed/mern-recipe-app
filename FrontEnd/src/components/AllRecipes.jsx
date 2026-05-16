@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { instance } from '../config/config';
+import { baseUrl, instance } from '../config/config';
 
 const AllRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -25,7 +25,7 @@ const AllRecipes = () => {
             {
               recipes.map((recipe) => {
                 return <div key={recipe.id} className= 'shadow-md bg-white rounded-2xl group overflow-hidden hover:scale-105 transition-transform duration-200 '>
-                  <div className='w-full h-62.5 mb-6  group-hover:scale-105 transition-transform duration-200 '><img src={recipe.coverImage} className='overflow-hidden w-full h-full' /></div>
+                  <div className='w-full h-62.5 mb-6  group-hover:scale-105 transition-transform duration-200 '><img src={`${baseUrl}/images/${recipe.coverImage}`} className='overflow-hidden w-full h-full' /></div>
                   <div className='px-4 flex flex-col gap-2 pb-4'>
                     <h3 className='font-semibold text-xl text-orange-400 '>{recipe.title}</h3>
                     <p className='font-medium text-md text-gray-700 '>{recipe.ingrediants}</p>
