@@ -14,9 +14,9 @@ const Navbar = () => {
                 <div className='flex gap-6'>
                 <ul className='flex items-center gap-4'>
                     <li><Link to="/" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Home</Link></li>
-                    <li><Link to="recipe" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Recipe</Link></li>
-                    <li><Link to="about" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>About</Link></li>
-                    <li><Link to="contact" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Contact</Link></li>
+                    <li><Link to="/my-recipes" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Recipe</Link></li>
+                    <li><Link to="/my-favourites" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Favourites</Link></li>
+                    <li><Link to="/contact" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Contact</Link></li>
                  {
                     token?"":(<>
                     <li><Link to="/auth/login" className='hover:bg-orange-500 hover:text-white py-1 px-2 rounded-md  text-md font-medium text-lg'>Login</Link></li>

@@ -5,6 +5,7 @@ import { AuthContext } from '../Context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 const Login = () => {
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const { sendDataToLogin, token, handleLogout, setToken } = useContext(AuthContext)
     const yupSchema = yup.object({
@@ -23,6 +24,7 @@ const Login = () => {
 
     async function handleLogin(values) {
         try {
+            setLoading(true)
             const response = await sendDataToLogin(values)
             if (response.success) {
                 console.log(response);
@@ -39,11 +41,12 @@ const Login = () => {
 
         } catch (error) {
             toast.error("Login failed. Please try again.")
-            // ! Handle login error (e.g., show an error message)
+        }
+        finally {
+            setLoading(false)
         }
 
     }
- 
     console.log(formik);
     return (
         <section className="min-h-screen bg-[#F9F7F2] flex items-center justify-center px-4">
@@ -96,8 +99,9 @@ const Login = () => {
 
                     <button
                         className="w-full bg-orange-500 hover:bg-orange-600 transition text-white py-3 rounded-xl font-semibold"
-                    >
-                        Login
+                   disabled={loading}
+                   >
+                        {loading ? "Logging in....." : "Login"}
                     </button>
 
                 </form>

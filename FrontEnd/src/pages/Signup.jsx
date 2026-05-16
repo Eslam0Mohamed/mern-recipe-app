@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useFormik } from 'formik'
 import toast from 'react-hot-toast'
 import { AuthContext } from '../Context/AuthContext'
 import * as yup from "yup" 
 import { useNavigate } from 'react-router-dom'
 const Register = () => {
+  const [loading,setLoading] = useState(false)
 const navigate = useNavigate()
   const {sendDataToSignup} = useContext(AuthContext)
 
@@ -107,8 +108,9 @@ const formik = useFormik({
           <button
           // type='button'
             className="w-full bg-orange-500 hover:bg-orange-600 transition text-white py-3 rounded-xl font-semibold"
+          disabled={loading}
           >
-            Register
+            {loading? "Register.. waiting":"Register"}
           </button>
 
         </form>
