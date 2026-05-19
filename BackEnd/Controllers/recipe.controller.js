@@ -25,7 +25,7 @@ export const createReacipe = async (request, response) => {
         if (!title || !instructions || !ingrediants) {
             return response.status(400).json({success:false, message: "All Fields Are Required" })
         }
-        const recipe = await recipeModel.create({ title, instructions, ingrediants,coverImage:request.file.filename })
+        const recipe = await recipeModel.create({ title, instructions, ingrediants,coverImage:request.file.filename ,userId:request.user.id})
         return response.status(201).json({ success: true, message: "Recipe created successfully", recipe: recipe })
     } catch (error) {
         console.log("ERROR => ", error);

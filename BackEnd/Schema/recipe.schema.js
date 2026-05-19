@@ -16,6 +16,10 @@ const recipeSchema = new mongoose.Schema({
     },
     coverImage:{
         type:String
+    },
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
     }
 },
     {
