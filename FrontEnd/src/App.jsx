@@ -9,13 +9,14 @@ import { Toaster } from 'react-hot-toast'
 import MyRecipes from './pages/MyRecipes'
 import MyFavourites from './pages/MyFavourites'
 import AddRecipe from './components/AddRecipe'
+import ProtectedRoute from './components/ProtectedRoute'
 const App = () => {
   const router = createBrowserRouter([
     { path: '/', element: <Layout />,children:[
       {path:"/",element:<Home/>},
-      {path:"/my-recipes",element:<MyRecipes/>},
-      {path:"/my-favourites",element:<MyFavourites/>},
-      {path:"/add-recipe",element:<AddRecipe/>},
+      {path:"/my-recipes",element:<ProtectedRoute><MyRecipes/></ProtectedRoute>},
+      {path:"/my-favourites",element:<ProtectedRoute><MyFavourites/></ProtectedRoute>},
+      {path:"/add-recipe",element:<ProtectedRoute><AddRecipe/></ProtectedRoute>},
       {path:"/auth/login",element:<Login/>},
       {path:"/auth/signup",element:<Register/>},
     ]  },

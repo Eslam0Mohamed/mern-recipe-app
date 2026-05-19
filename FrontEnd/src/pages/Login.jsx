@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 const Login = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
-    const { sendDataToLogin, token, handleLogout, setToken } = useContext(AuthContext)
+    const { sendDataToLogin, token, handleLogout, setToken,auth,setAuth } = useContext(AuthContext)
     const yupSchema = yup.object({
         email: yup.string().email("Invalid email format").required("Email is required"),
         password: yup.string().min(6, "password must be more than 6 characters").required("Password is required")
@@ -30,24 +30,24 @@ const Login = () => {
                 console.log(response);
                 toast.success(response.message)
                 setToken(response.token)
-                localStorage.setItem("token", token)
-                localStorage.setItem("name", response.data.name)
+                setAuth(true)
+                localStorage.setItem("token", response.token)
+            console.log(response.token);
+            console.log(localStorage.getItem("token"));
+            
+                localStorage.setItem("userData", JSON.stringify(response.data))
                 setTimeout(() => {
                     navigate("/")
                 }, 2000)
-            } else {
-                toast.error(response.message)
-            }
-
-        } catch (error) {
-            toast.error("Login failed. Please try again.")
+            } 
+        } catch (error) {            
+            toast.error(error)
         }
         finally {
             setLoading(false)
         }
 
     }
-    console.log(formik);
     return (
         <section className="min-h-screen bg-[#F9F7F2] flex items-center justify-center px-4">
 
@@ -98,6 +98,7 @@ const Login = () => {
                     </div>
 
                     <button
+                    type='submit'
                         className="w-full bg-orange-500 hover:bg-orange-600 transition text-white py-3 rounded-xl font-semibold"
                    disabled={loading}
                    >

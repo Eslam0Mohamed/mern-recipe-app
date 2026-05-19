@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { baseUrl, instance } from '../config/config';
+import toast from 'react-hot-toast';
+import Loading from './Loading';
 
 const AllRecipes = () => {
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
   async function getRecipes() {
-
+    try {
+      setLoading(true)
     const { data } = await instance.get(`/recipes`);
     console.log(data);
     setRecipes(data.recipes);
+    } catch (error) {
+      console.log(error.response.data);
+      toast.error(error.response.data.message)
+    }finally{
+      setLoading(false)
+    }
   }
 
   useEffect(() => {
     getRecipes();
   }, [])
 
-
+if (loading) {
+  return <Loading></Loading>
+}
 
   return (
     <>

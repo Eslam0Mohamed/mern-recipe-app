@@ -20,7 +20,7 @@ const navigate = useNavigate()
       }
     } catch (error) {
       console.log(error);
-      toast.error("Signup failed. Please try again.")
+      toast.error(error)
     }
   }
   const yupSchema = yup.object({

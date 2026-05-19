@@ -1,4 +1,5 @@
 import express from "express"
+import {auth} from "../authMiddleware/auth.middleware.js"
 import {
     createReacipe,
     deleteReacipe,
@@ -22,8 +23,8 @@ const upload = multer({ storage: storage })
 
 const router = express.Router()
 
-router.get("/", getAllReacipes)
-router.post("/", upload.single('coverImage'), createReacipe)
+router.get("/",getAllReacipes)
+router.post("/",auth ,upload.single('coverImage'), createReacipe)
 router.patch("/:id", UpdateReacipe)
 router.delete("/:id", deleteReacipe)
 router.get("/:id", getReacipeById)

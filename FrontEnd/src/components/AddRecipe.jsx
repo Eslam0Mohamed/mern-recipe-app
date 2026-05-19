@@ -14,14 +14,13 @@ async function handleAddRecipe(values) {
       "Content-Type": "multipart/form-data"
     }
   })
+  console.log(data);
+  
   if (data.success) {
     console.log(data);
     
     toast.success(data.message)
     formik.resetForm();
-  }
-  else{
-    toast.error(data.message)
   }
 } catch (error) {
   console.log(error);

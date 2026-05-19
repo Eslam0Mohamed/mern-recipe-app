@@ -1,4 +1,4 @@
-import express from "express"
+import express, { response } from "express"
 import mongoose from "mongoose"
 import cors from 'cors'
 import dotenv from 'dotenv'
@@ -15,9 +15,14 @@ connectDB()
 
  app.use(express.json())
  app.use(express.static('public'))
-app.use("/recipes",recipeRouter)
-app.use("/auth",userRouter)
-
+ app.use("/recipes",recipeRouter)
+ app.use("/auth",userRouter)
+ app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route Not Found"
+  })
+})
 
 app.listen(port,()=>{
     console.log("the server is connected on port " + port);

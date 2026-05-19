@@ -1,40 +1,83 @@
-import React, { createContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { createContext, useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { instance } from '../config/config'
 export const AuthContext = createContext("")
 
-const AuthContextProvider = ({children}) => {
-    const [token,setToken] = useState(localStorage.getItem("token"))
-// & Login function that sends data to the backend and receives a token
-async function sendDataToLogin(values) {
-  try {
-    const {data} = await instance.post("/auth/login",values)
-    return data
-  } catch (error) {
-    throw error            
-  }
-}
-// & signup function that sends data to the backend and receives a token
-async function sendDataToSignup(values) {
-        try {
-          // console.log("signed up",values);
-          // console.log("signed up",values);
-          
-          const {data} = await instance.post("/auth/register",values)
-          console.log("signed up",data);
-         return data
-        } catch (error) {
-            throw error
-        }
+const AuthContextProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true)
+  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [auth, setAuth] = useState(false)
+
+  // & Login function that sends data to the backend and receives a token
+  async function sendDataToLogin(values) {
+    console.log("verify start");
+    
+    try {
+      const { data } = await instance.post("/auth/login", values)
+      console.log(data);
+      if (data.success) {
+        return data
+      }
+
+    } catch (error) {
+      console.log(error.response.data.message);
+      throw error.response.data.message
     }
-function handleLogout() {
+  }
+  // & signup function that sends data to the backend and receives a token
+  async function sendDataToSignup(values) {
+    try {
+      // console.log("signed up",values);
+      // console.log("signed up",values);
+
+      const { data } = await instance.post("/auth/register", values)
+      console.log("signed up", data);
+      return data
+    } catch (error) {
+      throw error.response.data.message
+    }
+  }
+  // & verify Token function 
+  async function verifyToken() {
+    try {
+      setLoading(true)
+      const { data } = await instance.get("/auth/verify", {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      if (data.success) {
+        setAuth(true)
+      }
+    } catch (error) {
+      setAuth(false)
+      setToken(null)
+      localStorage.removeItem("token")
+    } finally {
+      setLoading(false)
+    }
+
+  }
+
+  useEffect(() => {
+    if (token) {
+      verifyToken()
+    }
+    else {
+      setAuth(false)
+      setLoading(false)
+    }
+  }, [token])
+
+  function handleLogout() {
     setToken(null)
     localStorage.removeItem("token")
-    localStorage.removeItem("name")
-}
+    localStorage.removeItem("userData")
+    setAuth(false)
+  }
 
   return (
-    <AuthContext.Provider value={{ sendDataToLogin, sendDataToSignup, handleLogout, token,setToken }}>
+    <AuthContext.Provider value={{ sendDataToLogin, sendDataToSignup, handleLogout, token, setToken, auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   )

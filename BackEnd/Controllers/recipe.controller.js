@@ -10,7 +10,7 @@ export const getAllReacipes = async (request, response) => {
 
     } catch (error) {
 
-        console.log("ERROR => ", error);
+        console.log("ERROR HERE => ", error);
 
         return response.status(500).json({
             message: error.message
@@ -23,9 +23,11 @@ export const createReacipe = async (request, response) => {
     try {
         const { title, instructions, ingrediants } = request.body
         if (!title || !instructions || !ingrediants) {
-            return response.status(400).json({success:false, message: "All Fields Are Required" })
+            return response.status(400).json({ success: false, message: "All Fields Are Required" })
         }
-        const recipe = await recipeModel.create({ title, instructions, ingrediants,coverImage:request.file.filename ,userId:request.user.id})
+        const recipe = await recipeModel.create({ 
+            title, instructions, ingrediants, coverImage: request.file.filename,
+             userId: request.user.id })
         return response.status(201).json({ success: true, message: "Recipe created successfully", recipe: recipe })
     } catch (error) {
         console.log("ERROR => ", error);
@@ -81,10 +83,10 @@ export const deleteReacipe = async (request, response) => {
             return response.status(404).json({ success: false, message: "Recipe not found" })
         }
         return response.status(200).json({ success: true, message: "recipe deleted successfully" })
-        
+
     } catch (error) {
-         console.log("ERROR => ", error);
-         return response.status(500).json({
+        console.log("ERROR => ", error);
+        return response.status(500).json({
             success: false,
             message: error.message
         })
