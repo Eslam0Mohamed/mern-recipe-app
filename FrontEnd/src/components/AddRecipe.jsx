@@ -5,13 +5,14 @@ import {instance} from "../config/config.js"
 import toast from "react-hot-toast"
 const AddRecipe = () => {
 const [loading, setLoading] = useState(false)
-
+const token = localStorage.getItem("token")
 async function handleAddRecipe(values) {
   try {
   setLoading(true);
   const {data} = await instance.post("recipes",values,{
     headers: {
-      "Content-Type": "multipart/form-data"
+      "Content-Type": "multipart/form-data",
+      "Authorization":`Bearer ${token}`
     }
   })
   console.log(data);
@@ -24,7 +25,7 @@ async function handleAddRecipe(values) {
   }
 } catch (error) {
   console.log(error);
-  toast.error(error+"Please try again.")
+  toast.error(error.response.data.message)
 } finally {
   setLoading(false);
 }

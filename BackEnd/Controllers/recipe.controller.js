@@ -59,7 +59,19 @@ export const getReacipeById = async (request, response) => {
 export const UpdateReacipe = async (request, response) => {
     try {
         const { id } = request.params
-        const updatedRecipe = await recipeModel.findByIdAndUpdate(id, request.body, { returnDocument: "after", })
+        console.log(id);
+        console.log(request.body);
+        
+        const {title,ingrediants,instructions}  = request.body
+        const updatedData = {
+            title,
+            ingrediants,
+            instructions
+        }
+        if (request.file) {
+ updatedData.coverImage = request.file.filename           
+        }
+        const updatedRecipe = await recipeModel.findByIdAndUpdate(id,updatedData , { returnDocument: "after", })
         if (!updatedRecipe) {
             return response.status(404).json({ success: false, message: "Recipe not found" })
         }
@@ -78,6 +90,8 @@ export const deleteReacipe = async (request, response) => {
     try {
         console.log(request.params.id);
         const { id } = request.params
+        console.log(id);
+        
         const deletedRecipe = await recipeModel.findByIdAndDelete(id)
         if (!deletedRecipe) {
             return response.status(404).json({ success: false, message: "Recipe not found" })

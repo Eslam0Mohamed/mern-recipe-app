@@ -6,7 +6,7 @@ export const AuthContext = createContext("")
 const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
   const [token, setToken] = useState(localStorage.getItem("token"))
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(null)
 
   // & Login function that sends data to the backend and receives a token
   async function sendDataToLogin(values) {
@@ -48,8 +48,11 @@ const AuthContextProvider = ({ children }) => {
       })
       if (data.success) {
         setAuth(true)
+        
       }
     } catch (error) {
+      console.log(error);
+      
       setAuth(false)
       setToken(null)
       localStorage.removeItem("token")
@@ -62,7 +65,7 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       verifyToken()
-    }
+  } 
     else {
       setAuth(false)
       setLoading(false)
@@ -77,7 +80,7 @@ const AuthContextProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ sendDataToLogin, sendDataToSignup, handleLogout, token, setToken, auth, setAuth }}>
+    <AuthContext.Provider value={{ sendDataToLogin,loading ,sendDataToSignup, handleLogout, token, setToken, auth, setAuth }}>
       {children}
     </AuthContext.Provider>
   )

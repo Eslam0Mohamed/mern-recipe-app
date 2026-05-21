@@ -25,7 +25,7 @@ const router = express.Router()
 
 router.get("/",getAllReacipes)
 router.post("/",auth ,upload.single('coverImage'), createReacipe)
-router.patch("/:id", UpdateReacipe)
+router.patch("/:id",auth ,upload.single('coverImage'), UpdateReacipe)
 router.delete("/:id", deleteReacipe)
 router.get("/:id", getReacipeById)
 export default router
