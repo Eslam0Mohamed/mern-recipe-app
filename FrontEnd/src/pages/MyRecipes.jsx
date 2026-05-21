@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import Loading from "../components/Loading"
 import { Link } from 'react-router-dom';
 import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdToken } from "react-icons/md";
 import DeletePopup from '../components/DeletePopup';
 
 const MyRecipes = () => {
@@ -13,6 +13,7 @@ const MyRecipes = () => {
   const [popupDelete, setPopupDelete] = useState(false)
   const [id, setId] = useState(null)
   const userData = JSON.parse(localStorage.getItem("userData"))
+  const token = localStorage.getItem("token")
   let myRecipes = []
   async function getRecipes() {
     try {
@@ -31,10 +32,12 @@ const MyRecipes = () => {
     }
   }
   async function deleteRecipeById(id) {
-    console.log(id);
-
     try {
-      const { data } = await instance.delete(`/recipes/${id}`);
+      const { data } = await instance.delete(`/recipes/${id}`,{
+        headers:{
+          "Authorization":`Bearer ${token}`
+        }
+      });
       if (data.success) {
         console.log(data);
         setRecipes((prev) =>
@@ -44,9 +47,8 @@ const MyRecipes = () => {
         setPopupDelete(false)
       }
     } catch (error) {
-      console.log(error);
-
-      toast.error(error.response.data.error)
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message)
     }
   }
 

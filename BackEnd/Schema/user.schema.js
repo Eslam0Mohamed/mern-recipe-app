@@ -11,7 +11,13 @@ const userSchema = new mongoose.Schema({
     password: {
         required: true,
         type: String
-    }
+    },
+    favourites: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Recipe"
+        }
+    ]
 }, { timestamps: true })
 
 

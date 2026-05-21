@@ -8,6 +8,7 @@ import {
     UpdateReacipe
 } from "../Controllers/recipe.controller.js"
 import multer from 'multer'
+import { handleFavourites } from "../Controllers/fav.controller.js"
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/images')
@@ -26,6 +27,10 @@ const router = express.Router()
 router.get("/",getAllReacipes)
 router.post("/",auth ,upload.single('coverImage'), createReacipe)
 router.patch("/:id",auth ,upload.single('coverImage'), UpdateReacipe)
-router.delete("/:id", deleteReacipe)
+router.delete("/:id",auth,deleteReacipe)
 router.get("/:id", getReacipeById)
+
+router.patch("/favourites/:recipeId",auth,handleFavourites)
+router.get("/favourites",auth,handleFavourites)
+
 export default router
