@@ -2,14 +2,18 @@ import { User } from "../Schema/user.schema.js"
 
 export const handleFavourites = async (request,response)=>{
     try {
-        const recipeId = request.params
+        const {recipeId} = request.params
+        // console.log(recipeId);
+        
         const user = await User.findById(request.user.id)
         if (!user) {
             return response.status(404).json({success:false,message:"user not found"})
         }
-        const isExist =await user.favourites.includes(recipeId)
+        const isExist =await user.favourites.some((id)=>id.toString() === recipeId)
         if (isExist) {
-            user.favourites.filter((id)=>{id.toString()!=recipeId})
+          user.favourites = user.favourites.filter((id)=>id.toString()!==recipeId)
+            console.log(user.favourites);
+            
         }
         else{
             user.favourites.push(recipeId)
@@ -26,13 +30,13 @@ export const handleFavourites = async (request,response)=>{
 
 export const getFavourites =async (request,response)=>{
     try {
-        const user = user.findById(request.user.id)
+        const user = await User.findById(request.user.id).populate("favourites")
         if (!user) {
             return response.status(404).json({success:false,message:"user not found"})
         }
         return response.status(200).json({success:true,data:user.favourites})
     } catch (error) {
-        return response.status(501).json({success:false,message:error.message})
+        return response.status(500).json({success:false,message:error.message})
         
     }
 }
